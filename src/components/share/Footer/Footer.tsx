@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-export default function Footer () {
+import "./footer.styles.css"
+export const Footer:React.FunctionComponent = () => {
   return (<>
     <footer className="container bg-light footer">
     <div className="row">
