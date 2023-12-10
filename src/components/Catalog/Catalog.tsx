@@ -1,20 +1,18 @@
 import { Preloader } from "../share/Preloader/Preloader";
-import { useGetCatalogQuery,
-useGetCatalogByCategoryQuery,
-useLazyGetCatalogByTextQuery } from "../../store/slicers/getProducts";
+import { useGetCatalogQuery,useGetCatalogByCategoryQuery,useLazyGetCatalogByTextQuery } from "../../store/slicers/getProducts";
 import { useSelector,useDispatch } from 'react-redux';
 import { useState,useEffect } from "react";
 import { Categories } from "../Categories/Categories";
 import { changeCategory } from "../../store/slicers/catalogSlice";
 import { RootState } from "../../store/store";
-import { Item } from "../ProductCard/Item";
+import { Item } from "../Item/Item";
 import { useNavigate } from "react-router-dom";
-import { ICard } from "../ProductCard/Item";
+import { ICard } from "../Item/Item";
 import "./catalog.styles.css"
 import { AdditionalItems } from "../AdditionalItems/AdditionalItems";
 export const Catalog: React.FunctionComponent<{inputStyle:string}> = ({inputStyle}) => {
- const  dispatch = useDispatch();
-const [items, setItems] = useState<ICard[] | null | undefined>(null)
+  const  dispatch = useDispatch();
+  const [items, setItems] = useState<ICard[] | null | undefined>(null)
   const text = useSelector((state:RootState) => state.catalogFilter.searchText)
   const navigate = useNavigate();
   const filter: number = useSelector((state:RootState) => state.catalogFilter.value);

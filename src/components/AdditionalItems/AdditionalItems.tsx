@@ -4,8 +4,8 @@ import { useState,useEffect } from "react";
 import { RootState } from "../../store/store";
 import { useSelector } from 'react-redux';
 import { Preloader } from "../share/Preloader/Preloader";
-import { Item } from "../ProductCard/Item";
-import { ICard } from "../ProductCard/Item";
+import { Item } from "../Item/Item";
+import { ICard } from "../Item/Item";
 export const AdditionalItems: React.FunctionComponent = () => {
 const [offset, setOffset] = useState(6);
 const filter: number = useSelector((state:RootState) => state.catalogFilter.value);

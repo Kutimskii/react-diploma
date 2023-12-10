@@ -1,6 +1,6 @@
 import { Preloader } from "../share/Preloader/Preloader";
 import { useGetTopSalesQuery } from "../../store/slicers/getProducts";
-import { Item } from "../ProductCard/Item";
+import { Item } from "../Item/Item";
 import { useNavigate } from "react-router-dom";
 export const TopSales:React.FunctionComponent = () => {
   const navigate = useNavigate();

@@ -1,10 +1,12 @@
-import { configureStore } from '@reduxjs/toolkit'
-import { getProductsSlice } from './slicers/getProducts'
-import { catalogSlice } from './slicers/catalogSlice'
+import { configureStore } from '@reduxjs/toolkit';
+import { getProductsSlice } from './slicers/getProducts';
+import { cartSlice } from './slicers/cartSlice';
+import { catalogSlice } from './slicers/catalogSlice';
 export const store = configureStore({
   reducer: {
   [getProductsSlice.reducerPath]:getProductsSlice.reducer,
   catalogFilter: catalogSlice.reducer,
+  cartState: cartSlice.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(getProductsSlice.middleware),

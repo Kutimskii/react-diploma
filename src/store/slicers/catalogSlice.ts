@@ -5,12 +5,10 @@ export interface ICategoriesState {
   value: number,
   searchText: string,
 }
-
 const initialState: ICategoriesState = {
   value: 0,
   searchText: '',
 }
-
 export const catalogSlice = createSlice({
   name: 'categories',
   initialState,
@@ -23,6 +21,7 @@ export const catalogSlice = createSlice({
     },
   },
 })
+
 
 export const { changeCategory, saveSearch } = catalogSlice.actions
 

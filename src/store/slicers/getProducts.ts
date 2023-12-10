@@ -37,7 +37,6 @@ export const getProductsSlice = createApi({
       query: (idCategory:number) => `/api/items?categoryId=${idCategory}`,
     }),
     getAnotherByCategory: builder.query({
-
       query: ({idCategory, offset}:{idCategory:number, offset:number}) => `/api/items?categoryId=${idCategory}&offset=${offset}`,
     }),
     getAnotherCatalog: builder.query({
@@ -45,6 +44,9 @@ export const getProductsSlice = createApi({
     }),
     getCatalogByText: builder.query({
       query: (text) => `/api/items?q=${text}`,
+    }),
+    getItemById: builder.query({
+      query: (id) => `/api/items/${id}`,
     }),
   }),
 });
@@ -56,4 +58,6 @@ export const {
   useGetCatalogByCategoryQuery,
   useGetAnotherByCategoryQuery,
   useGetAnotherCatalogQuery,
-  useLazyGetCatalogByTextQuery } = getProductsSlice;
+  useLazyGetCatalogByTextQuery,
+  useGetItemByIdQuery
+ } = getProductsSlice;
