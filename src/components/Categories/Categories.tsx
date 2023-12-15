@@ -6,10 +6,9 @@ import { changeCategory } from "../../store/slicers/catalogSlice";
 import { RootState } from "../../store/store";
 
 export const Categories: React.FunctionComponent = () => {
-  const {data,error } = useGetCategoriesQuery();
+  const {data } = useGetCategoriesQuery();
   const filter = useSelector((state:RootState) => state.catalogFilter.value)
   const dispatch = useDispatch()
-  console.log(error)
   return (
     <ul className="catalog-categories nav justify-content-center">
       <li className="nav-item">

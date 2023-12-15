@@ -1,8 +1,10 @@
 import {createApi,fetchBaseQuery} from "@reduxjs/toolkit/query/react";
+import { ICard } from "../../components/Item/Item";
 interface ISizes {
   size: string,
   available: true | false
 }
+
 export interface IProduct {
   id: number,
   category: number,
@@ -19,6 +21,11 @@ export interface IProduct {
   oldPrice: number,
   sizes: ISizes[],
 }
+export interface IOrder {
+  id: number,
+  count: number,
+  price: number,
+}
 type TProductsResponse = IProduct[]
 export const getProductsSlice = createApi({
   reducerPath:'getProducts',
@@ -27,7 +34,7 @@ export const getProductsSlice = createApi({
     getTopSales: builder.query<TProductsResponse, void>({
       query: () => '/api/top-sales',
     }),
-    getCatalog: builder.query<TProductsResponse, void>({
+    getCatalog: builder.query<TProductsResponse, void |  ICard[]>({
       query: () => '/api/items/',
     }),
     getCategories: builder.query<TProductsResponse, void>({
@@ -43,10 +50,20 @@ export const getProductsSlice = createApi({
       query: (offset) => `/api/items?offset=${offset}`,
     }),
     getCatalogByText: builder.query({
-      query: (text) => `/api/items?q=${text}`,
+      query: ({inputText,idCategory, offset}) => `/api/items?q=${inputText}&categoryId=${idCategory}&offset=${offset}`,
     }),
     getItemById: builder.query({
       query: (id) => `/api/items/${id}`,
+    }),
+    makeOrder: builder.mutation({
+      query: (body) => ({
+        url: '/api/order',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        body,
+      }),
     }),
   }),
 });
@@ -56,8 +73,12 @@ export const {
   useGetCatalogQuery,
   useGetCategoriesQuery,
   useGetCatalogByCategoryQuery,
-  useGetAnotherByCategoryQuery,
+  useLazyGetAnotherByCategoryQuery,
+  useLazyGetAnotherCatalogQuery,
   useGetAnotherCatalogQuery,
+  useGetAnotherByCategoryQuery, 
   useLazyGetCatalogByTextQuery,
-  useGetItemByIdQuery
+  useGetCatalogByTextQuery,
+  useGetItemByIdQuery,
+  useMakeOrderMutation
  } = getProductsSlice;

@@ -1,17 +1,19 @@
 import './error.styles.css'
+import { useNavigate } from 'react-router-dom'
 interface IErrorPropps {
-  data: string,
-  error: string
+  error: string 
 }
-export const Error: React.FunctionComponent<IErrorPropps> = ({data,error}:IErrorPropps) => {
+export const Error: React.FunctionComponent<IErrorPropps> = ({error}:IErrorPropps) => {
+  const navigate = useNavigate();
+const closeError = () => {
+  navigate(-1)
+}
   return (      
     <div className="error_container">
-      <div>
-        <h2 className="error_content">{data}</h2>
-          <p>
-          {error}
-          </p>
+      <div className="error_content">
+        <h2 >OOps! some error happend</h2>
+        <p className='error_text'>{error}</p>
       </div>
-    
+    <button type='button' className='error_button' onClick={closeError}>Закрыть</button>
   </div>);
 }

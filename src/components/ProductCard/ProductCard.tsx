@@ -1,11 +1,10 @@
 import { useGetItemByIdQuery } from "../../store/slicers/getProducts";
 import { useParams } from "react-router-dom";
-import { addItem, deleteItem } from "../../store/slicers/cartSlice";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../store/store";
+import { addItem } from "../../store/slicers/cartSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Preloader } from "../share/Preloader/Preloader";
 import { useState,useEffect } from "react";
-import { ICartState } from "../../store/slicers/cartSlice";
 type Tsize = {
   size:string
   available: boolean
@@ -13,30 +12,33 @@ type Tsize = {
 export const ProductCard: React.FunctionComponent = () => {
   const { id }= useParams();
   const [sizesAvailable, setSizesAvailable] = useState([]);
-  const {data, isLoading} = useGetItemByIdQuery(id);
   const [quantity, setQuantity] = useState(1);
   const [chosenSize, setChosenSize] = useState('');
-  const cart = useSelector((state:RootState) => state.cartState);
+  const [isSelected, setSelected] = useState(false);
+  const {data, isLoading} = useGetItemByIdQuery(id);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  console.log(cart)
   const decreaseQuantity = () => setQuantity(prev => prev > 1 ? prev - 1 : prev);
   const increaseQuantity = () => setQuantity(prev => prev < 10 ? prev + 1 : prev);
   
   const addToCart = () : void => {
    dispatch(addItem({
+      id:data.id,
       title: data.title,
       size: chosenSize,
       quantity: quantity,
       price: data.price,
-      fullPrice: 0,
       sku: data.sku
       }))
+    navigate('/cart.html')
   }
   const selectSize = (size: string) => {
+    setSelected(prev => !prev)
+    if(isSelected){
+      return setChosenSize('')
+    }
     setChosenSize(size)
   }
-console.log(data)
   useEffect (()=>{
     if(data){
       setSizesAvailable(data.sizes.filter((el:Tsize) => el.available === true))
@@ -82,7 +84,8 @@ console.log(data)
             <div className="text-center">
             <p>Размеры в наличии:
               {sizesAvailable.map((el:Tsize) => {
-                return <span className="catalog-item-size" key={el.size} onClick={()=>selectSize(el.size)}>{el.size}</span>})}
+                return <span className = {`catalog-item-size ${isSelected ? 'selected' : ''}`} 
+                key={el.size} onClick={()=>selectSize(el.size)}>{el.size}</span>})}
             </p>
             {sizesAvailable.length < 1 ? <></> :
             <p>Количество:
@@ -95,7 +98,8 @@ console.log(data)
             }
             </div>
             {sizesAvailable.length < 1 ? <></> :
-            <button className="btn btn-danger btn-block btn-lg" onClick={addToCart}>В корзину</button>}
+            <button className='btn btn-danger btn-block btn-lg' 
+            onClick={addToCart} disabled ={chosenSize ? false : true}>В корзину</button>}
         </div>
     </div>
 </section>
