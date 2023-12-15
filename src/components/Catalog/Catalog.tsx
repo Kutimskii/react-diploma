@@ -18,8 +18,7 @@ export const Catalog: React.FunctionComponent<{inputStyle:string}> = ({inputStyl
   const navigate = useNavigate();
   const [offset, setOffset] = useState(0);
   const filter: number = useSelector((state:RootState) => state.catalogFilter.value);
-  const  {data,isLoading, error, refetch} = !inputRef.current?.value ? useGetAnotherByCategoryQuery({idCategory:filter, offset:offset}) :
-  useGetCatalogByTextQuery({inputText:inputRef.current?.value,idCategory:filter, offset});
+  const  {data,isLoading, error, refetch} =  useGetCatalogByTextQuery({inputText:inputRef.current?.value ? inputRef.current?.value : '',idCategory:filter, offset});
   const handler = async(e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     updateItems();
