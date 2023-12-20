@@ -5,7 +5,7 @@ import { RootState } from "../../store/store";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Preloader } from "../share/Preloader/Preloader";
-import { Error } from "../Error/Error";
+import { ErrorOrder } from "../ErrorOrder/Error";
 import './order.style.css'
 export const Order = () => {
   const cart = useSelector((state:RootState) => state.cartState);
@@ -42,7 +42,7 @@ export const Order = () => {
   }
   if (error){
     if('data' in error && 'error' in error) {
-      return <Error
+      return <ErrorOrder
       error = {error.error}
       />
     }

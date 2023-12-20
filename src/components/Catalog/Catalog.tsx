@@ -1,12 +1,12 @@
 import { Preloader } from "../share/Preloader/Preloader";
-import { useGetCatalogByTextQuery,useGetAnotherByCategoryQuery } from "../../store/slicers/getProducts";
+import { useGetCatalogByTextQuery } from "../../store/slicers/getProducts";
 import { useSelector } from 'react-redux';
 import { useState,useEffect } from "react";
 import { Categories } from "../Categories/Categories";
 import { RootState } from "../../store/store";
 import { Item } from "../Item/Item";
 import { useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { ErrorLoad } from "../ErrorLoad/ErrorLoad";
 import { ICard } from "../Item/Item";
 import "./catalog.styles.css"
 
@@ -15,10 +15,9 @@ export const Catalog: React.FunctionComponent<{inputStyle:string}> = ({inputStyl
   const [items, setItems] = useState<ICard[]>([]);
   const [isAnyItems,setAnyItems] = useState(true)
   const text = useSelector((state:RootState) => state.catalogFilter.searchText)
-  const navigate = useNavigate();
   const [offset, setOffset] = useState(0);
   const filter: number = useSelector((state:RootState) => state.catalogFilter.value);
-  const  {data,isLoading, error, refetch} =  useGetCatalogByTextQuery({inputText:inputRef.current?.value ? inputRef.current?.value : '',idCategory:filter, offset});
+  const  {data,isLoading, error, refetch, isFetching} =  useGetCatalogByTextQuery({inputText:inputRef.current?.value ? inputRef.current?.value : '',idCategory:filter, offset});
   const handler = async(e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     updateItems();
@@ -27,14 +26,12 @@ export const Catalog: React.FunctionComponent<{inputStyle:string}> = ({inputStyl
     setAnyItems(true)
     refetch();
   }
-  const searchItems =  () => {
-  }
   const addMore = () => { 
     setOffset((prev)=> prev += 6);
   }
   useEffect(() => {
     setOffset(0);
-    setAnyItems(true)
+    setAnyItems(true);
   },[filter])
   useEffect(() => {
     if(data){
@@ -49,8 +46,19 @@ export const Catalog: React.FunctionComponent<{inputStyle:string}> = ({inputStyl
   },[data])
 
   if(error){
-    if ('originalStatus' in error){
-      error.originalStatus === 404 ? navigate('/404') : null
+    if('error' in error) {
+        return <section className="catalog">
+        <h2 className="text-center">Каталог</h2>
+        <form className={`catalog-search-form form-inline ${inputStyle}`} onSubmit={(e)=>handler(e)}>
+          <input className="form-control" placeholder="Поиск" 
+          defaultValue={text} autoFocus ref = {inputRef}/>
+        </form>
+        <Categories/>
+         <ErrorLoad
+        error={error.error}
+        updateFetch={()=>refetch()}
+      />
+      </section>
     }
   }
   return (
@@ -58,16 +66,18 @@ export const Catalog: React.FunctionComponent<{inputStyle:string}> = ({inputStyl
     <h2 className="text-center">Каталог</h2>
     <form className={`catalog-search-form form-inline ${inputStyle}`} onSubmit={(e)=>handler(e)}>
       <input className="form-control" placeholder="Поиск" 
-      defaultValue={text} autoFocus onChange={searchItems} ref = {inputRef}/>
+      defaultValue={text} autoFocus ref = {inputRef}/>
     </form>
     <Categories/>
-    {isLoading ? <Preloader/> :
+      {isLoading || isFetching? <Preloader/> : items.length > 1 ?
     <div className="row">
     {items?.map((el, index):React.ReactElement => {
       return <Item
       key={index}
-      props={el}/>
+      props={el}/> 
     })}
+    </div> : <div className="text-center">
+      К сожалению, по вашему запросу ничего не найдено
     </div>}
     <div className="text-center">
       <button className={`btn btn-outline-primary ${isAnyItems ? '' : 'deactive'}`} onClick={addMore}>Загрузить ещё</button>

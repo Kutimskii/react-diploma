@@ -1,19 +1,25 @@
 import { Preloader } from "../share/Preloader/Preloader";
 import { useGetTopSalesQuery } from "../../store/slicers/getProducts";
 import { Item } from "../Item/Item";
-import { useNavigate } from "react-router-dom";
+import { ErrorLoad } from "../ErrorLoad/ErrorLoad";
 export const TopSales:React.FunctionComponent = () => {
-  const navigate = useNavigate();
-  const {data, isLoading, error } = useGetTopSalesQuery();
-  if(error){
-    if ('originalStatus' in error){
-      error.originalStatus === 404 ? navigate('/404') : null
+  const {data, isLoading, error, refetch } = useGetTopSalesQuery();
+  if(error) {
+    if('error' in error) {
+      return   <section className="top-sales">
+      <h2 className="text-center">Хиты продаж!</h2>
+      <ErrorLoad
+      error={error.error}
+      updateFetch={()=>refetch()}
+      />
+      </section>
     }
+   
   }
   return (      
   <section className="top-sales">
   <h2 className="text-center">Хиты продаж!</h2>
-  {isLoading? <Preloader/> :
+  {isLoading ? <Preloader/> :
   <div className="row">
   {data?.map((el):React.ReactElement  => {
     return <Item

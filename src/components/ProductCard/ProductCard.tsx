@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Preloader } from "../share/Preloader/Preloader";
 import { useState,useEffect } from "react";
+import { ErrorLoad } from "../ErrorLoad/ErrorLoad";
 type Tsize = {
   size:string
   available: boolean
@@ -15,7 +16,7 @@ export const ProductCard: React.FunctionComponent = () => {
   const [quantity, setQuantity] = useState(1);
   const [chosenSize, setChosenSize] = useState('');
   const [isSelected, setSelected] = useState(false);
-  const {data, isLoading} = useGetItemByIdQuery(id);
+  const {data, isLoading, error, refetch} = useGetItemByIdQuery(id);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const decreaseQuantity = () => setQuantity(prev => prev > 1 ? prev - 1 : prev);
@@ -44,6 +45,15 @@ export const ProductCard: React.FunctionComponent = () => {
       setSizesAvailable(data.sizes.filter((el:Tsize) => el.available === true))
     }
   },[data])
+
+  if(error) {
+    if('error' in error) {
+      return <ErrorLoad
+      error={error.error}
+      updateFetch={()=>refetch()}
+      />
+    }
+ }
   return (isLoading ? <Preloader/> :
     <section className="catalog-item">
     <h2 className="text-center">{data.title}</h2>

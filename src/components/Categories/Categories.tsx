@@ -4,11 +4,19 @@ import { useGetCategoriesQuery } from "../../store/slicers/getProducts";
 import { useDispatch, useSelector } from 'react-redux'
 import { changeCategory } from "../../store/slicers/catalogSlice";
 import { RootState } from "../../store/store";
-
+import { ErrorLoad } from "../ErrorLoad/ErrorLoad";
 export const Categories: React.FunctionComponent = () => {
-  const {data } = useGetCategoriesQuery();
+  const {data, error, refetch} = useGetCategoriesQuery();
   const filter = useSelector((state:RootState) => state.catalogFilter.value)
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  if(error) {
+    if('error' in error) {
+      return <ErrorLoad
+      error={error.error}
+      updateFetch={()=>refetch()}
+      />
+    }
+ }
   return (
     <ul className="catalog-categories nav justify-content-center">
       <li className="nav-item">
