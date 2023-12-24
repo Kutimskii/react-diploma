@@ -29,7 +29,7 @@ section {
 
 /* Top Sales */
 .top-sales {
-  min-height: 300px;
+  min-height: 300px ;
 }
 
 
@@ -61,3 +61,12 @@ h2, .h2 {
   height: 70%;
   object-fit: cover;
 }
+@media (max-width:992px){
+  .container {
+    max-width: 100vw;
+}
+.col {
+  padding: 0;
+}
+}
+

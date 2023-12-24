@@ -1,14 +1,25 @@
 import { Link } from "react-router-dom";
-
+import { useEffect } from "react";
 import { useGetCategoriesQuery } from "../../store/slicers/getProducts";
 import { useDispatch, useSelector } from 'react-redux'
 import { changeCategory } from "../../store/slicers/catalogSlice";
 import { RootState } from "../../store/store";
 import { ErrorLoad } from "../ErrorLoad/ErrorLoad";
+import { Preloader } from "../share/Preloader/Preloader";
 export const Categories: React.FunctionComponent = () => {
-  const {data, error, refetch} = useGetCategoriesQuery();
+  const {data, error, isLoading, refetch} = useGetCategoriesQuery();
   const filter = useSelector((state:RootState) => state.catalogFilter.value)
   const dispatch = useDispatch();
+  useEffect(()=>{
+    if(error){
+      dispatch(changeCategory(null))
+    }else{
+      dispatch(changeCategory(0))
+    }    
+  },[error])
+  if(isLoading){
+    return <Preloader/>
+  }
   if(error) {
     if('error' in error) {
       return <ErrorLoad

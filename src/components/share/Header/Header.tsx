@@ -11,13 +11,16 @@ import { updateStore } from "../../../store/slicers/cartSlice";
 export const Header:React.FunctionComponent = () => {
 const dispatch = useDispatch();
 const [activeSearch,setActiveSrch] = useState(false);
+const [localCart, setLocalCart] = useState([])
 const navigate  = useNavigate();
 const cart = useSelector((state:RootState) => state.cartState);
-const localCart = JSON.parse(localStorage.cart)
 useEffect(()=> {
-  if(localCart.length >= 1){
-    dispatch(updateStore(localCart))
+  if (localStorage.cart){
+    setLocalCart(JSON.parse(localStorage.cart));
   }
+},[cart])
+useEffect(()=> {
+    dispatch(updateStore(JSON.parse(localStorage.cart)))
 },[])
 
 const changeInput = (e:React.ChangeEvent<HTMLInputElement>) => {
@@ -25,7 +28,7 @@ const changeInput = (e:React.ChangeEvent<HTMLInputElement>) => {
   navigate('/catalog.html')
 }
   return (
-  <header className="container" >
+  <header className="container header_width" >
   <div className="row">
     <div className="col">
       <nav className="navbar navbar-expand-sm navbar-light bg-light">

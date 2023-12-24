@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
 export interface ICategoriesState {
-  value: number,
+  value: number | null,
   searchText: string,
 }
 const initialState: ICategoriesState = {
@@ -13,7 +13,7 @@ export const catalogSlice = createSlice({
   name: 'categories',
   initialState,
   reducers: {
-    changeCategory: (state, action: PayloadAction<number>) => {
+    changeCategory: (state, action: PayloadAction<number|null>) => {
       state.value = action.payload
     },
     saveSearch: (state, action: PayloadAction<string>) => {
