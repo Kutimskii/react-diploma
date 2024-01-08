@@ -28,7 +28,7 @@ useEffect(()=> {
 
 const changeInput = (e:React.ChangeEvent<HTMLInputElement>) => {
   dispatch(saveSearch(e.target.value))
-  navigate('/catalog.html')
+  navigate('/catalog')
 }
   return (
   <header className="container header_width" >
@@ -44,20 +44,20 @@ const changeInput = (e:React.ChangeEvent<HTMLInputElement>) => {
               <NavLink  to ="/" className="nav-link" >Главная</NavLink>
             </li>
             <li className="nav-item">
-              <NavLink to ="/catalog.html" className="nav-link" >Каталог</NavLink>
+              <NavLink to ="/catalog" className="nav-link" >Каталог</NavLink>
             </li>
             <li className = "nav-item">
-              <NavLink  to = "/about.html" className = "nav-link">О магазине</NavLink>
+              <NavLink  to = "/about" className = "nav-link">О магазине</NavLink>
             </li>
             <li className="nav-item">
-              <NavLink to = "/contacts.html" className="nav-link" >Контакты</NavLink>
+              <NavLink to = "/contacts" className="nav-link" >Контакты</NavLink>
             </li>
           </ul>
           <div>
             <div className = {styles.header_controls_pics}>
               <div data-id="search-expander" className={`${styles.header_controls_pic} ${styles.header_controls_search}`}
               onClick={()=>setActiveSrch((prev)=> !prev)}></div>
-              <div className={`${styles.header_controls_pic} ${styles.header_controls_cart}`} onClick={()=>navigate('/cart.html')}>
+              <div className={`${styles.header_controls_pic} ${styles.header_controls_cart}`} onClick={()=>navigate('/cart')}>
                 <div className={localCart.length || cart.length >=1 ? styles.header_controls_cart_full : 'deactive' }>
                   {localCart.length >=1 ? localCart.length : cart.length}</div>
                 <div className={styles.header_controls_cart_menu}></div>

@@ -16,7 +16,7 @@ export const Item: React.FunctionComponent<{props:ICard}> = ({props}) => {
       <div className="card-body">
         <p className="card-text">{props.title}</p>
         <p className="card-text">{props.price}</p>
-        <Link to = {`/catalog/${props.id}.html`} className="btn btn-outline-primary">Заказать</Link>
+        <Link to = {`/catalog/${props.id}`} className="btn btn-outline-primary">Заказать</Link>
       </div>
     </div>
   </div>

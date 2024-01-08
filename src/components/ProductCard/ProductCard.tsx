@@ -31,7 +31,7 @@ export const ProductCard: React.FunctionComponent = () => {
       price: data.price,
       sku: data.sku
       }))
-    navigate('/cart.html')
+    navigate('/cart')
   }
   const selectSize = (size: string) => {
     setSelected(prev => !prev)

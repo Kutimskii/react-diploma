@@ -30,7 +30,7 @@ export const Cart: React.FunctionComponent = () => {
         return (
         <tr key={index}>
             <td scope="row">{index + 1}</td>
-            <td><Link to = {`/products/${el.id}.html`}>{el.title}</Link></td>
+            <td><Link to = {`/products/${el.id}`}>{el.title}</Link></td>
             <td>{el.size}</td>
             <td>{el.quantity}</td>
             <td>{el.price}</td>
