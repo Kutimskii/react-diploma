@@ -20,7 +20,10 @@ useEffect(()=> {
   }
 },[cart])
 useEffect(()=> {
+  if (localStorage.cart){
     dispatch(updateStore(JSON.parse(localStorage.cart)))
+  }
+
 },[])
 
 const changeInput = (e:React.ChangeEvent<HTMLInputElement>) => {
