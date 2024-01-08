@@ -29,7 +29,7 @@ export interface IOrder {
 type TProductsResponse = IProduct[]
 export const getProductsSlice = createApi({
   reducerPath:'getProducts',
-  baseQuery: fetchBaseQuery({baseUrl:'http://localhost:7070'}),
+  baseQuery: fetchBaseQuery({baseUrl:'https://bosanoga.onrender.com'}),
   endpoints: (builder) => ({
     getTopSales: builder.query<TProductsResponse, void>({
       query: () => '/api/top-sales',
